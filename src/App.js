@@ -1,11 +1,39 @@
 import React from 'react';
-import './App.css';
+import MyContext from './MyContext';
 import Cars from './Cars';
+import './App.css';
 
-function App() {
-  return (
-    <Cars />
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      cars: {
+        red: false,
+        blue: false,
+        yellow: false,
+      },
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(car, side) {
+    this.setState({
+      cars: {
+        ...this.state.cars,
+        [car]: side,
+      },
+    });
+  }
+
+  render() {
+    return (
+      <MyContext.Provider value={{ ...this.state, moveCar: this.handleClick }}>
+        <Cars />
+      </MyContext.Provider>
+    );
+  }
 }
 
 export default App;
